@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.GuiMain">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="836" height="499"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="3f29" binding="tabbedPane1" default-binding="true">
+        <constraints border-constraint="North"/>
+        <properties>
+          <font size="18"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="f8888" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="主界面"/>
+            </constraints>
+            <properties/>
+            <clientProperties>
+              <html.disable class="java.lang.Boolean" value="false"/>
+            </clientProperties>
+            <border type="none"/>
+            <children>
+              <component id="6eaae" class="javax.swing.JButton" binding="codeButton">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <font size="28"/>
+                  <horizontalAlignment value="0"/>
+                  <text value="生成代码"/>
+                </properties>
+              </component>
+              <scrollpane id="9a33d">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="18"/>
+                  <horizontalScrollBarPolicy value="31"/>
+                  <verticalScrollBarPolicy value="22"/>
+                </properties>
+                <border type="none" title="系统消息">
+                  <font size="20"/>
+                </border>
+                <children>
+                  <component id="52e52" class="javax.swing.JTextArea" binding="logArea">
+                    <constraints/>
+                    <properties>
+                      <columns value="100"/>
+                      <font size="16"/>
+                      <rows value="25"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="bb707" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <tabbedpane title="命名规范"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="97221" binding="cg_panel" layout-manager="GridLayoutManager" row-count="9" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="North"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="43c5e" class="javax.swing.JLabel" binding="cg_packNameLab">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="包名(必填)"/>
+                    </properties>
+                  </component>
+                  <component id="fd8fc" class="javax.swing.JLabel" binding="cg_authorLab">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="作者"/>
+                    </properties>
+                  </component>
+                  <component id="84a5b" class="javax.swing.JLabel" binding="cg_entityLab">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="Entity后缀"/>
+                    </properties>
+                  </component>
+                  <component id="15a43" class="javax.swing.JTextField" binding="cg_packNameText">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="e9c97" class="javax.swing.JTextField" binding="cg_authorText">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="6e380" class="javax.swing.JTextField" binding="cg_entityText">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="51d00" class="javax.swing.JLabel" binding="cg_daoLab">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="DAO后缀"/>
+                    </properties>
+                  </component>
+                  <component id="b629a" class="javax.swing.JTextField" binding="cg_daoText">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="87b04" class="javax.swing.JLabel" binding="cg_serviceLab">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="Service后缀"/>
+                    </properties>
+                  </component>
+                  <component id="c2cad" class="javax.swing.JTextField" binding="cg_serviceText">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="efd43" class="javax.swing.JLabel" binding="cg_serviceImplLab">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="ServiceImpl后缀"/>
+                    </properties>
+                  </component>
+                  <component id="4aa0" class="javax.swing.JTextField" binding="cg_serviceImplText">
+                    <constraints>
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="c8954" class="javax.swing.JLabel" binding="cg_controllerLab">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="Controller后缀"/>
+                    </properties>
+                  </component>
+                  <component id="76620" class="javax.swing.JLabel" binding="cg_mapperLab">
+                    <constraints>
+                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="Mapper(xml)后缀"/>
+                    </properties>
+                  </component>
+                  <component id="207a7" class="javax.swing.JTextField" binding="cg_controllerText">
+                    <constraints>
+                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="5bda3" class="javax.swing.JTextField" binding="cg_mapperText">
+                    <constraints>
+                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="251f6" class="javax.swing.JTextField" binding="cg_addText">
+                    <constraints>
+                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="346e2" class="javax.swing.JTextField" binding="cg_updateText">
+                    <constraints>
+                      <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="a72fd" class="javax.swing.JTextField" binding="cd_deleteText">
+                    <constraints>
+                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="747" class="javax.swing.JTextField" binding="cg_getText">
+                    <constraints>
+                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="47ae6" class="javax.swing.JTextField" binding="cg_batchDelText">
+                    <constraints>
+                      <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="c4d52" class="javax.swing.JTextField" binding="cg_batchUpdateText">
+                    <constraints>
+                      <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="9d069" class="javax.swing.JTextField" binding="cg_listText">
+                    <constraints>
+                      <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="83dcf" class="javax.swing.JTextField" default-binding="true">
+                    <constraints>
+                      <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="b248b" class="javax.swing.JTextField" default-binding="true">
+                    <constraints>
+                      <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="6bd6e" class="javax.swing.JTextField" default-binding="true">
+                    <constraints>
+                      <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                    </properties>
+                  </component>
+                  <component id="a6e8d" class="javax.swing.JLabel" binding="cg_addLab">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="新增方法名"/>
+                    </properties>
+                  </component>
+                  <component id="954a6" class="javax.swing.JLabel" binding="cd_deleteLab">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="删除方法名"/>
+                    </properties>
+                  </component>
+                  <component id="82ef2" class="javax.swing.JLabel" binding="cg_batchDelLab">
+                    <constraints>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="批量删除方法名"/>
+                    </properties>
+                  </component>
+                  <component id="470c2" class="javax.swing.JLabel" binding="cg_listLab">
+                    <constraints>
+                      <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="查询列表方法名"/>
+                    </properties>
+                  </component>
+                  <component id="2140a" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="备用"/>
+                    </properties>
+                  </component>
+                  <component id="4c798" class="javax.swing.JLabel" binding="cg_updateLab">
+                    <constraints>
+                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="修改方法名"/>
+                    </properties>
+                  </component>
+                  <component id="9046d" class="javax.swing.JLabel" binding="cg_getLab">
+                    <constraints>
+                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="查询方法名(根据ID)"/>
+                    </properties>
+                  </component>
+                  <component id="4fd6f" class="javax.swing.JLabel" binding="cg_batchUpdateLab">
+                    <constraints>
+                      <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="批量更新方法名"/>
+                    </properties>
+                  </component>
+                  <component id="677ad" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="备用"/>
+                    </properties>
+                  </component>
+                  <component id="69899" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="39" height="30"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font size="24"/>
+                      <text value="备用"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="280d4" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <tabbedpane title="数据库配置"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="74b71" class="javax.swing.JLabel">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <font size="22"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <grid id="e3859" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="North"/>
+                <properties>
+                  <font name="Franklin Gothic Heavy"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="86866" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="a14b8" class="javax.swing.JLabel">
+                        <constraints/>
+                        <properties>
+                          <font size="22"/>
+                          <text value="选择数据库"/>
+                        </properties>
+                      </component>
+                      <component id="855c2" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                        <constraints/>
+                        <properties>
+                          <font size="22"/>
+                          <model>
+                            <item value="Mysql"/>
+                            <item value="Oracle"/>
+                          </model>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ce8c3" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="589ec" class="javax.swing.JLabel" binding="db_localIpLab">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="本机IP地址"/>
+                        </properties>
+                      </component>
+                      <component id="5548a" class="javax.swing.JTextField" binding="db_localIpText">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="d1904" class="javax.swing.JLabel" binding="db_DbNameLab">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="数据库名称"/>
+                        </properties>
+                      </component>
+                      <component id="f5f7c" class="javax.swing.JLabel" binding="db_postLab">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="端口号"/>
+                        </properties>
+                      </component>
+                      <component id="1b126" class="javax.swing.JLabel" binding="db_userNameLab">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="用户名"/>
+                        </properties>
+                      </component>
+                      <component id="5f63" class="javax.swing.JLabel" binding="db_passwordLab">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="密码"/>
+                        </properties>
+                      </component>
+                      <component id="f9fe0" class="javax.swing.JTextField" binding="db_DbNameText">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="24b43" class="javax.swing.JTextField" binding="db_postText">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="b5728" class="javax.swing.JTextField" binding="db_userNameText">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="c3ce8" class="javax.swing.JTextField" binding="db_passwordText">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <component id="ea4bd" class="javax.swing.JButton" binding="testCon">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font size="20"/>
+                      <foreground color="-14936035"/>
+                      <text value="连接测试"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+  <inspectionSuppressions>
+    <suppress inspection="NoScrollPane" id="3b68f"/>
+    <suppress inspection="I18nForm" id="7941f"/>
+    <suppress inspection="I18nForm" id="f822a"/>
+  </inspectionSuppressions>
+</form>

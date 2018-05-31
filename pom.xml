@@ -15,9 +15,10 @@
         <commons.version>2.4</commons.version>
         <guava.version>18.0</guava.version>
         <ojdbc6.version>11.2.0.3</ojdbc6.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
-    <!-- mysql,oracle,freemarket,io,guava(goole) -->
+    <!-- mysql,oracle,freemarket,io,guava(goole),gui(idea) -->
     <dependencies>
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -42,8 +43,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>6.0.5</version>
         </dependency>
     </dependencies>
 
