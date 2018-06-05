@@ -57,6 +57,10 @@ public class GuiMain {
     private JLabel cg_getLab;
     private JLabel cg_batchUpdateLab;
     private JLabel cd_deleteLab;
+    private JButton genByPojoButton;
+    private JButton genByDbButton;
+    private JFrame chooseFrame;
+    private Font font;
 
     public GuiMain() {
         //mainPanel.setSize(800,800);
@@ -65,12 +69,145 @@ public class GuiMain {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                //弹出一个选择界面
+                //1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,service,controller)
+                chooseFrame = new JFrame("选择生成方式");
+                chooseFrame.setSize(300, 300);
+                //chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //chooseFrame.pack();
+                chooseFrame.setVisible(true);
+                chooseFrame.setLocationRelativeTo(null);
+                //设置布局
+                chooseFrame.setLayout(new FlowLayout());
+                genByPojoButton = new JButton("根据实体生成");
+                genByDbButton = new JButton("根据数据库表生成");
+                //genByDbButton.setPreferredSize(new Dimension(100, 100));
+
+                //添加监听事件
+                addListenerToGenButton();
+                //设置到面板
+                chooseFrame.add(genByPojoButton);
+                chooseFrame.add(genByDbButton);
+                //设置字体
+                font = $$$getFont$$$(null, -1, 24, genByPojoButton.getFont());
+                if (font != null) {
+                    genByPojoButton.setFont(font);
+                    genByDbButton.setFont(font);
+                }
+            }
+        });
+
+    }
+
+    private void addListenerToGenButton() {
+        genByPojoButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                //实体填写窗口
+                //1.GridBoder布局
+                GridLayout gridLayout = new GridLayout();
+                //2.flow
+                FlowLayout flowLayout = new FlowLayout();
+                JFrame pojoFrame = newInstanceJFrame("填写实体对象", flowLayout, 900, 800);
+
+                //父窗口不可见
+                chooseFrame.setVisible(false);
+                //添加到pojo填写窗口
+                //添加表名
+                JLabel pojoTabelLabel = new JLabel("表名:");
+                JLabel pojoTabelComLabel = new JLabel("注释:");
+                JTextField pojoTabelField = new JTextField();
+                JTextField commentField = new JTextField();
+                //扩展按钮
+                JButton addRowBut = new JButton("新增一行");
+                JButton commitBut = new JButton("确定");
+                //字体
+                if (font != null) {
+                    pojoTabelLabel.setFont(font);
+                    pojoTabelField.setFont(font);
+                    pojoTabelComLabel.setFont(font);
+                    commentField.setFont(font);
+                    pojoTabelField.setColumns(13);
+                    commentField.setColumns(18);
+                    commitBut.setFont(font);
+                    addRowBut.setFont(font);
+                }
+                //添加列
+                pojoFrame.add(pojoTabelLabel);
+                pojoFrame.add(pojoTabelField);
+                pojoFrame.add(pojoTabelComLabel);
+                pojoFrame.add(commentField);
+                //先加4行
+                addRows(pojoFrame);
+                addRows(pojoFrame);
+                addRows(pojoFrame);
+                addRows(pojoFrame);
+                //加入扩展按钮
+                pojoFrame.add(commitBut);
+                pojoFrame.add(addRowBut);
+            }
+
+            private void addRows(JFrame frame) {
+                JLabel typeLabel = new JLabel("类型:");
+                JLabel defLabel = new JLabel("含义:");
+                JComboBox box = new JComboBox();
+                //属性
+                JLabel fieldLabel = new JLabel("属性:");
+                //属性文本
+                JTextField field = new JTextField();
+                //注释文本
+                JTextField comField = new JTextField();
+                //字体
+                if (font != null) {
+                    fieldLabel.setFont(font);
+                    typeLabel.setFont(font);
+                    defLabel.setFont(font);
+                    field.setFont(font);
+                    comField.setFont(font);
+                    box.setFont(font);
+                    field.setColumns(10);
+                    comField.setColumns(10);
+                }
+                //下拉框
+                final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+                defaultComboBoxModel1.addElement("Integer");
+                defaultComboBoxModel1.addElement("Long");
+                defaultComboBoxModel1.addElement("Double");
+                defaultComboBoxModel1.addElement("Float");
+                defaultComboBoxModel1.addElement("String");
+                defaultComboBoxModel1.addElement("Date");
+                defaultComboBoxModel1.addElement("List");
+                defaultComboBoxModel1.addElement("Set");
+                box.setModel(defaultComboBoxModel1);
+                //添加至窗口
+                frame.add(typeLabel);
+                frame.add(box);
+                frame.add(fieldLabel);
+                frame.add(field);
+                frame.add(defLabel);
+                frame.add(comField);
             }
         });
     }
 
+    /**
+     * 根据布局对象和窗口名称生成窗口对象
+     *
+     * @param manager
+     */
+    private JFrame newInstanceJFrame(String name, LayoutManager manager, Integer height, Integer width) {
+        JFrame frame = new JFrame(name);
+        frame.setLayout(manager);
+        frame.setSize(width, height);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        return frame;
+    }
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("GuiMain");
+        JFrame frame = new JFrame("主界面");
         GuiMain guiMain = new GuiMain();
         frame.setContentPane(guiMain.mainPanel);
         guiMain.setFrameOnView(frame);
