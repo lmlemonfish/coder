@@ -100,6 +100,19 @@ public class GuiMain {
     }
 
     private void addListenerToGenButton() {
+    	// 根据数据库表生成代码按钮点击事件
+    	genByDbButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//父窗口不可见
+                chooseFrame.setVisible(false);
+				
+                new ConfirmInfoFrame();
+			}
+    		
+		});
+    	
         genByPojoButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
