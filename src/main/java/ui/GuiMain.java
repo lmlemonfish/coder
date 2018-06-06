@@ -117,11 +117,15 @@ public class GuiMain {
                 //添加表名
                 JLabel pojoTabelLabel = new JLabel("表名:");
                 JLabel pojoTabelComLabel = new JLabel("注释:");
+                JLabel isGenDbLabel = new JLabel("是否生成数据库对应的表:");
+                JLabel isGenAllLabel = new JLabel("是否生成对应的(持久层/业务层/控制层):");
                 JTextField pojoTabelField = new JTextField();
                 JTextField commentField = new JTextField();
                 //扩展按钮
                 JButton addRowBut = new JButton("新增一行");
                 JButton commitBut = new JButton("确定");
+                JRadioButton isGenDb = new JRadioButton();
+                JRadioButton isGenAll = new JRadioButton();
                 //字体
                 if (font != null) {
                     pojoTabelLabel.setFont(font);
@@ -132,18 +136,25 @@ public class GuiMain {
                     commentField.setColumns(18);
                     commitBut.setFont(font);
                     addRowBut.setFont(font);
+                    isGenDbLabel.setFont(font);
+                    isGenAllLabel.setFont(font);
                 }
                 //添加列
                 pojoFrame.add(pojoTabelLabel);
                 pojoFrame.add(pojoTabelField);
                 pojoFrame.add(pojoTabelComLabel);
                 pojoFrame.add(commentField);
-                //先加4行
+                //先加5行
+                addRows(pojoFrame);
                 addRows(pojoFrame);
                 addRows(pojoFrame);
                 addRows(pojoFrame);
                 addRows(pojoFrame);
                 //加入扩展按钮
+                pojoFrame.add(isGenDbLabel);
+                pojoFrame.add(isGenDb);
+                pojoFrame.add(isGenAllLabel);
+                pojoFrame.add(isGenAll);
                 pojoFrame.add(commitBut);
                 pojoFrame.add(addRowBut);
             }
