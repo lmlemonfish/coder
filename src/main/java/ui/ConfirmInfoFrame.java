@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,20 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import utils.Constants;
+
 /**
  * 要求用户输入表名以及文件输出路径界面
  * @author ma
  *
  */
 public class ConfirmInfoFrame extends JFrame {
-
-	public static final int DEFAULT_X = 300;
-	public static final int DEFAULT_Y = 300;
-	public static final int DEFAULT_WIDTH = 550;
-	public static final int DEFAULT_HEIGHT = 400;
-	
 	public ConfirmInfoFrame() {
-		init(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		init(Constants.DEFAULT_X, Constants.DEFAULT_Y, Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT);
 		
 	}
 
@@ -40,6 +37,8 @@ public class ConfirmInfoFrame extends JFrame {
 	private JTextField tableName;
 	private JFileChooser fileChooser;
 	private JPanel [] jps;
+	
+	private Font font = new Font(null, 1, 18);
 	
 	/**
 	 * 初始化界面
@@ -65,11 +64,18 @@ public class ConfirmInfoFrame extends JFrame {
 		jls[1] = new JLabel("请选择文件输出路径: ");
 		jls[2] = new JLabel();
 		
+		for (int i = 0; i < jls.length; i++) {
+			jls[i].setFont(font);
+		}
+		
 		tableName = new JTextField(15);
 		
 		confirmButton = new JButton("确定");
+		confirmButton.setFont(font);
 		cancleButton = new JButton("取消");
+		cancleButton.setFont(font);
 		fileChooseButton = new JButton("选择文件输出位置");
+		fileChooseButton.setFont(font);
 		fileChooseButton.addActionListener(new ButtonClick());
 		
 		jps[0].add(jls[0]);
@@ -106,17 +112,17 @@ public class ConfirmInfoFrame extends JFrame {
 				if (fileChooser == null) {
 					fileChooser = new JFileChooser(); // 文件选择框
 
-					sb.append(File.separator);
+					/*sb.append(File.separator);
 					sb.append("src");
 					sb.append(File.separator);
 					sb.append("main");
 					sb.append(File.separator);
-					sb.append("java");
+					sb.append("java");*/
 					
 					String path = sb.toString();
 					
 					fileFrame = new JFrame("选择文件输出位置");
-					fileFrame.setBounds(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+					fileFrame.setBounds(Constants.DEFAULT_X, Constants.DEFAULT_Y, Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT);
 					fileFrame.add(fileChooser);
 					
 					fileFrame.setVisible(true);
