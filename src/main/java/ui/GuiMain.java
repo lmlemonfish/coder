@@ -2,6 +2,7 @@ package ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -57,6 +58,7 @@ public class GuiMain {
     private JLabel cg_getLab;
     private JLabel cg_batchUpdateLab;
     private JLabel cd_deleteLab;
+    private JRadioButton radioButton1;
     private JButton genByPojoButton;
     private JButton genByDbButton;
     private JFrame chooseFrame;
@@ -70,7 +72,7 @@ public class GuiMain {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 //弹出一个选择界面
-                //1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,service,controller)
+                //1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,db.service,controller)
                 chooseFrame = new JFrame("选择生成方式");
                 chooseFrame.setSize(300, 300);
                 //chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,19 +102,19 @@ public class GuiMain {
     }
 
     private void addListenerToGenButton() {
-    	// 根据数据库表生成代码按钮点击事件
-    	genByDbButton.addMouseListener(new MouseAdapter() {
+        // 根据数据库表生成代码按钮点击事件
+        genByDbButton.addMouseListener(new MouseAdapter() {
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//父窗口不可见
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //父窗口不可见
                 chooseFrame.setVisible(false);
-				
+
                 new ConfirmInfoFrame();
-			}
-    		
-		});
-    	
+            }
+
+        });
+
         genByPojoButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -552,6 +554,16 @@ public class GuiMain {
         testCon.setForeground(new Color(-14936035));
         testCon.setText("连接测试");
         panel4.add(testCon, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Untitled", panel7);
+        radioButton1 = new JRadioButton();
+        radioButton1.setText("RadioButton");
+        panel7.add(radioButton1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel7.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel7.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

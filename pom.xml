@@ -16,6 +16,7 @@
         <guava.version>18.0</guava.version>
         <ojdbc6.version>11.2.0.3</ojdbc6.version>
         <junit.version>4.12</junit.version>
+        <logback.version>1.1.1</logback.version>
     </properties>
 
     <!-- mysql,oracle,freemarket,io,guava(goole),gui(idea) -->
@@ -29,6 +30,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
@@ -50,6 +56,11 @@
             <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
             <version>6.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 
