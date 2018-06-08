@@ -1,12 +1,11 @@
 package utils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Map;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Map;
 
 /**
  * freemarket模板工具类
@@ -21,6 +20,8 @@ public class FreemarkerUtil {
 		configuration = new Configuration(Configuration.VERSION_2_3_23);
 		
 		configuration.setClassForTemplateLoading(FreemarkerUtil.class, "/ftl");
+		//编码
+		configuration.setDefaultEncoding("UTF-8");
 	}
 	
 	public static Template getTemplate(String ftlName) {
@@ -39,7 +40,7 @@ public class FreemarkerUtil {
 	 */
 	public static void produceFile(String ftlName, Map<String, Object> valueMap, String file) {
 		File f = new File(file);
-		
+
 		try(FileWriter out = new FileWriter(f)){
 			Template template = getTemplate(ftlName);
 			template.process(valueMap, out);
@@ -47,6 +48,6 @@ public class FreemarkerUtil {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
