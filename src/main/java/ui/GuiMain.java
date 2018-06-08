@@ -119,7 +119,9 @@ public class GuiMain {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //实体填写窗口
+                chooseFrame.setVisible(false);
+                new ProduceEntityFrame();
+                /*//实体填写窗口
                 //1.GridBoder布局
                 GridLayout gridLayout = new GridLayout();
                 //2.flow
@@ -171,7 +173,7 @@ public class GuiMain {
                 pojoFrame.add(isGenAllLabel);
                 pojoFrame.add(isGenAll);
                 pojoFrame.add(commitBut);
-                pojoFrame.add(addRowBut);
+                pojoFrame.add(addRowBut);*/
             }
 
             private void addRows(JFrame frame) {
