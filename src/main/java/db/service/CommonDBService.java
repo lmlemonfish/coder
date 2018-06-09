@@ -15,7 +15,7 @@ public interface CommonDBService {
      * 从数据库中获得表信息
      * @return
      */
-    TableInfo getTableInfoFromDB();
+    TableInfo getTableInfoFromDB(String tableName);
 
     /**
      * 检查是否连接成功数据库

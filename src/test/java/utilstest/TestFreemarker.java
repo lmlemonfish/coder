@@ -1,16 +1,17 @@
 package utilstest;
 
+import entity.EntityMetaData;
+import utils.FreemarkerUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import entity.EntityMetaData;
-import utils.FreemarkerUtil;
-
 public class TestFreemarker {
 
 	public static void main(String[] args) {
+
 		Map<String, Object> valueMap = new HashMap<>();
 		
 		EntityMetaData entity = new EntityMetaData();

@@ -17,7 +17,7 @@ public class DBFactory {
 
     static Logger logger = LoggerFactory.getLogger(DBFactory.class);
     //包名前缀
-    private static final String DB_PRE_PACK = "db.service.impl.Common";
+    private static final String DB_PRE_PACK = "db.service.impl.";
     //服务后缀
     private static final String DB_POST_PACK = "ServiceImpl";
     //数据库名称
@@ -34,7 +34,10 @@ public class DBFactory {
         //反射生成对象
         //多态
         CommonDBService commonDBService = null;
-        String className = DB_PRE_PACK + db + DB_POST_PACK;
+        //拼接模块名称
+        String modelName = "Common";
+
+        String className = DB_PRE_PACK + modelName + db + DB_POST_PACK;
 
         try {
             Class<?> name = Class.forName(className);
