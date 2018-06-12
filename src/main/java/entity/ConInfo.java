@@ -23,8 +23,6 @@ public class ConInfo {
     private ConInfo() {
     }
 
-    ;
-
     private ConInfo(String driver, String url, String userName, String password) {
         this.driver = driver;
         this.url = url;
@@ -68,7 +66,11 @@ public class ConInfo {
      * @return
      */
     public static boolean isConSuccess() {
-        if(conInfo != null && !Strings.isNullOrEmpty(conInfo.getDriver())) {
+        if(conInfo != null
+                && !Strings.isNullOrEmpty(conInfo.getDriver())
+                && !Strings.isNullOrEmpty(conInfo.getUrl())
+                && !Strings.isNullOrEmpty(conInfo.getUserName())
+                && !Strings.isNullOrEmpty(conInfo.getPassword())) {
             return true;
         }
         return false;

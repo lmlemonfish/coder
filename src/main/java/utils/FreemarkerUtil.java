@@ -50,4 +50,20 @@ public class FreemarkerUtil {
 		}
 
 	}
+
+	/**
+	 * 根据模板生成文件
+	 */
+	public static void produceFileByPojo(String ftlName, Object object, String file) {
+		File f = new File(file);
+
+		try(FileWriter out = new FileWriter(f)){
+			Template template = getTemplate(ftlName);
+			template.process(object, out);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

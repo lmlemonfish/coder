@@ -1,5 +1,7 @@
 package entity.basic;
 
+import java.util.Date;
+
 /**
  * 生成类的类中所包含的基本信息
  * 
@@ -11,6 +13,7 @@ public class ClassBasicData {
 	private String className;   // 类名
 	private String description; // 类功能注释
 	private String author; // 作者
+	private Date date; // 创建时间
 
 	public String getAuthor() {
 		return author;
@@ -44,4 +47,11 @@ public class ClassBasicData {
 		this.description = description;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

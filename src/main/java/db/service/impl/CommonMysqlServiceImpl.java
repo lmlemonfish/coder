@@ -13,7 +13,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName CommonMysqlServiceImpl
@@ -45,13 +46,21 @@ public class CommonMysqlServiceImpl implements CommonDBService {
                 conInfo.getPassword());
 
         ResultSet columns = null;
-
         DatabaseMetaData metaData = null;
+
         TableInfo tableInfo = new TableInfo();
-        HashMap<String, TableInfo.FieldMeTa> map = new HashMap<>();
+        List<TableInfo.FieldMeTa> list = new ArrayList<>();
 
         try {
             metaData = connection.getMetaData();
+            //取表信息
+            String tableNote = null;
+            ResultSet tables = metaData.getTables(null, "%", tableName, new String[]{"TABLE"});
+            while(tables.next()) {
+                tableNote = tables.getString("REMARKS");
+            }
+
+            //取表中列信息
             columns = metaData.getColumns(null, "%", tableName, "%");
             while(columns.next()) {
                 //字段名
@@ -66,14 +75,13 @@ public class CommonMysqlServiceImpl implements CommonDBService {
                 String note = columns.getString("REMARKS");
 
                 //封装到对象
-                TableInfo.FieldMeTa fieldMeTa = tableInfo.new FieldMeTa(typeName,columnSize,note,nullable);
-                if(columnName != null) {
-                    map.put(columnName,fieldMeTa);
-                }
+                TableInfo.FieldMeTa fieldMeTa = tableInfo.new FieldMeTa(columnName,typeName,columnSize,note,nullable);
+                list.add(fieldMeTa);
             }
 
+            tableInfo.setNote(tableNote);
             tableInfo.setTableName(tableName);
-            tableInfo.setFieldMap(map);
+            tableInfo.setFieldList(list);
 
         } catch (SQLException e) {
             e.printStackTrace();
