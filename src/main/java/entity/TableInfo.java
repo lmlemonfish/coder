@@ -107,29 +107,49 @@ public class TableInfo {
      * 2.将a_b这种形式,转化为驼峰 aB
      * @return
      */
-    public void convert() {
+    public List<FieldMeTa> convert() {
 
         DicConstants dicConstants = DicConstants.getInstance();
         HashMap<String, String> map = dicConstants.getMap();
 
+        /*List<FieldMeTa> list = new ArrayList<>();
+
+        for (FieldMeTa input: fieldList) {
+            String fieldName = input.getFieldName();
+            String type = input.getFieldType();
+            String newType = map.get(type);
+            input.setFieldType(newType);
+
+            //将a_b这种形式,转化为驼峰 aB
+            String formatName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, fieldName);
+            input.setFieldName(formatName);
+        }*/
+
         List<FieldMeTa> list = Lists.transform(fieldList, new Function<FieldMeTa, FieldMeTa>() {
             @Override
             public FieldMeTa apply(FieldMeTa input) {
+
+                FieldMeTa fieldMeTa = new FieldMeTa();
+                fieldMeTa.setNote(input.getNote());
+                fieldMeTa.setNullable(input.getNullable());
+
                 String fieldName = input.getFieldName();
                 String type = input.getFieldType();
                 String newType = map.get(type);
-                input.setFieldType(newType);
+                fieldMeTa.setFieldType(newType);
 
                 //将a_b这种形式,转化为驼峰 aB
                 String formatName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, fieldName);
-                input.setFieldName(formatName);
+                fieldMeTa.setFieldName(formatName);
 
-                return input;
+                return fieldMeTa;
             }
         });
 
+        return list;
+
         //TODO guava的坑
-        fieldList  = Lists.newArrayList(list);
+        //return Lists.newArrayList(list);
         //fieldList = list;
 
     }

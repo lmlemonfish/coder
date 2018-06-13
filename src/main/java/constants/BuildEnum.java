@@ -9,9 +9,12 @@ package constants;
  **/
 public enum BuildEnum {
 
+    TEMPLATE("template","null","null"),
+    TABLEINFO("tableInfo","null","null"),
     CLASSINFO("classInfo","null","null"),
     ENTITY("entity", "entity.ftl", "db_entity.ftl"),
     DAO("dao", "dao.ftl", "db_dao.ftl"),
+    MAPPER("mapper", "mapper.ftl", "db_mapper.ftl"),
     SERVICE("service", "service.ftl", "db_service.ftl"),
     SERVICE_IMPL("serviceImpl", "serviceImpl.ftl", "db_serviceImpl.ftl"),
     Controller("controller", "controllor.ftl", "db_controllor.ftl"),

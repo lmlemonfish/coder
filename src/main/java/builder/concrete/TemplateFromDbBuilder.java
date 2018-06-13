@@ -2,6 +2,7 @@ package builder.concrete;
 
 import builder.TemplateBuilder;
 import constants.BuildEnum;
+import entity.FileFromDbData;
 import entity.TableInfo;
 import utils.FreemarkerUtil;
 
@@ -24,16 +25,24 @@ public class TemplateFromDbBuilder extends TemplateBuilder {
 
     @Override
     public void builderEntity() {
-        TableInfo data = null;
+        //转换后的实体 info,方便后面mapper的生成
+        TableInfo data = new TableInfo();
         //获取valueMap数据
-        //Object o = getValueMap().get(BuildEnum.ENTITY.getModelKey());
+        FileFromDbData fileFromDbData = (FileFromDbData)(getValueMap().get(BuildEnum.TEMPLATE.getModelKey()));
+        TableInfo info = fileFromDbData.getTableInfo();
+        //clone
+        //转化为java类型
+        data.setFieldList(info.convert());
+        data.setNote(info.getNote());
+        data.setTableName(info.getTableName());
+
+        fileFromDbData.setEntity(data);
+
+        //getValueMap().put(BuildEnum.TEMPLATE.getModelKey(),fileFromDbData);
+
         String path = getPath();
         //判断数据的有效性
         checkNeedfulData();
-        //判断类型
-        /*if (o instanceof TableInfo) {
-            data = (TableInfo) o;
-        }*/
 
         //freemarket
         FreemarkerUtil.produceFileByPojo(BuildEnum.ENTITY.getFtlByDbName(), getValueMap(), path);
@@ -43,7 +52,13 @@ public class TemplateFromDbBuilder extends TemplateBuilder {
 
     @Override
     public void buildMapper() {
+        String path = getPath();
+        //TODO path需要解析
 
+        //判断数据的有效性
+        checkNeedfulData();
+        //freemarket
+        FreemarkerUtil.produceFileByPojo(BuildEnum.MAPPER.getFtlByPojoName(), getValueMap(), path);
     }
 
     @Override

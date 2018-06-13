@@ -5,8 +5,10 @@ import builder.director.TemplateDirector;
 import constants.BuildEnum;
 import db.service.CommonDBService;
 import engine.CoderEngine;
+import entity.FileFromDbData;
 import entity.TableInfo;
 import entity.basic.ClassBasicData;
+import entity.basic.MethodBasicData;
 import org.junit.Test;
 
 import java.util.Date;
@@ -31,20 +33,36 @@ public class BuilderTest {
         service.checkConnection("jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=utf8&useInformationSchema=true", "root", "root");
         //取表信息
         TableInfo info = service.getTableInfoFromDB("tb_content");
-        //转化为java类型
-        info.convert();
 
         //设置表信息
         HashMap<String,Object> valueMap = new HashMap<>();
-        valueMap.put(BuildEnum.ENTITY.getModelKey(),info);
+        FileFromDbData fileFromDbData = new FileFromDbData();
+
         //设置类基本信息 (命名规范等)
         ClassBasicData basicData = setClassBasicData();
         basicData.setClassName(info.convertTableName());
         basicData.setDate(new Date());
         basicData.setAuthor("LM");
+        basicData.setDescription(info.getNote());
 
-        valueMap.put(BuildEnum.CLASSINFO.getModelKey(),basicData);
+        MethodBasicData dao = new MethodBasicData();
+        dao.setPackageName(basicData.getPackageName());
+        dao.setClassName("TestDao");
+        dao.setDescription("test dao");
+        dao.setAuthor("LM");
+        dao.setAddMethod("save");
+        dao.setUpdateMethod("update");
+        dao.setDelMethod("delById");
+        dao.setFindByIdMethod("loadById");
+        dao.setDelBatchMethod("delBatchById");
+        dao.setUpdateBatchMethod("updateBatch");
+        dao.setFindAllMethod("list");
 
+        fileFromDbData.setTableInfo(info);
+        fileFromDbData.setClassInfo(basicData);
+        fileFromDbData.setDao(dao);
+
+        valueMap.put(BuildEnum.TEMPLATE.getModelKey(),fileFromDbData);
         //建造者传入指挥者 --> 生成模板
         TemplateFromDbBuilder builder = new TemplateFromDbBuilder(valueMap,"E:/TestDemo.java");
         TemplateDirector director = new TemplateDirector(builder);
