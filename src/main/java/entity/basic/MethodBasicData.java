@@ -8,6 +8,7 @@ package entity.basic;
  */
 public class MethodBasicData extends ClassBasicData {
 	private String addMethod; // 新增方法方法名
+	private String batchAddMethod; // 批量新增方法名
 	private String updateMethod; // 修改操作方法名
 	private String delMethod; // 删除操作方法名
 	private String findByIdMethod; // 根据ID查询方法名
@@ -71,4 +72,11 @@ public class MethodBasicData extends ClassBasicData {
 		this.findAllMethod = findAllMethod;
 	}
 
+	public String getBatchAddMethod() {
+		return batchAddMethod;
+	}
+
+	public void setBatchAddMethod(String batchAddMethod) {
+		this.batchAddMethod = batchAddMethod;
+	}
 }

@@ -57,6 +57,7 @@ public class BuilderTest {
         dao.setDelBatchMethod("delBatchById");
         dao.setUpdateBatchMethod("updateBatch");
         dao.setFindAllMethod("list");
+        dao.setBatchAddMethod("batchAdd");
 
         fileFromDbData.setTableInfo(info);
         fileFromDbData.setClassInfo(basicData);
