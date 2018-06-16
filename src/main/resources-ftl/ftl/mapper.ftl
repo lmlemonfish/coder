@@ -61,7 +61,7 @@
         VALUES (${baseValueSql})
     </insert>
 
-    <insert id="${template.dao.batchAddMethod}" parameterType="list">
+    <insert id="${template.dao.addBatchMethod}" parameterType="list">
         INSERT INTO ${table_name} (${table_insert_value})
         <foreach collection="list" item="entity" index="index" separator="union all">
             ${insertBatchTemplate}

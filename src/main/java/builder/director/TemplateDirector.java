@@ -20,7 +20,11 @@ public class TemplateDirector {
     public void buildEntityTemplate() {
 
         builder.builderEntity();
+        builder.buildDao();
         builder.buildMapper();
+        builder.buildService();
+        builder.buildServiceImpl();
+        builder.buildController();
     }
 
 }

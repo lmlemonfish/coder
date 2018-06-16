@@ -54,7 +54,7 @@ public class TemplateFromDbBuilder extends TemplateBuilder {
     public void buildMapper() {
         String path = getPath();
         //TODO path需要解析
-
+        path = "E:/TestDemoMapper.xml";
         //判断数据的有效性
         checkNeedfulData();
         //freemarket
@@ -63,16 +63,45 @@ public class TemplateFromDbBuilder extends TemplateBuilder {
 
     @Override
     public void buildDao() {
-
+        String path = getPath();
+        //TODO path需要解析 , 需要注意:mapper的生成namespace要依赖dao的包名
+        path = "E:/TestDemoDao.java";
+        //判断数据的有效性
+        checkNeedfulData();
+        //freemarket
+        FreemarkerUtil.produceFileByPojo(BuildEnum.DAO.getFtlByPojoName(), getValueMap(), path);
     }
 
     @Override
     public void buildService() {
+        String path = getPath();
+        //TODO path需要解析
+        path = "E:/TestDemoService.java";
+        //判断数据的有效性
+        checkNeedfulData();
+        //freemarket
+        FreemarkerUtil.produceFileByPojo(BuildEnum.SERVICE.getFtlByPojoName(), getValueMap(), path);
+    }
 
+    @Override
+    public void buildServiceImpl() {
+        String path = getPath();
+        //TODO path需要解析
+        path = "E:/TestDemoServiceImpl.java";
+        //判断数据的有效性
+        checkNeedfulData();
+        //freemarket
+        FreemarkerUtil.produceFileByPojo(BuildEnum.SERVICE_IMPL.getFtlByPojoName(), getValueMap(), path);
     }
 
     @Override
     public void buildController() {
-
+        String path = getPath();
+        //TODO path需要解析
+        path = "E:/TestDemoController.java";
+        //判断数据的有效性
+        checkNeedfulData();
+        //freemarket
+        FreemarkerUtil.produceFileByPojo(BuildEnum.Controller.getFtlByPojoName(), getValueMap(), path);
     }
 }

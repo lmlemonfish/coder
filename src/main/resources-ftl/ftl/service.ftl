@@ -1,46 +1,52 @@
-<#if (serviceBasic.service.packageName)??>
-package ${serviceBasic.service.packageName};
+<#if (template.service.packageName)??>
+package ${template.service.packageName};
 </#if>
 
 import java.io.Serializable;
-<#if (serviceBasic.service.findAllMethod)??>
+<#if (template.service.findAllMethod)??>
 import java.util.List;
 </#if>
 
 /**
-<#if (serviceBasic.service.description)??>
-* ${serviceBasic.service.description}
+<#if (template.service.description)??>
+* @Description ${template.service.description}
 </#if>
-<#if (serviceBasic.service.author)??>
-* @author ${serviceBasic.service.author}
+<#if (template.service.author)??>
+* @author ${template.service.author}
 </#if>
+* @Date ${template.classInfo.date?string("yyyy/MM/dd HH:mm:ss")}
+* @Version 1.0
 */
-public interface ${serviceBasic.service.className?cap_first} {
-	<#if (serviceBasic.service.addMethod)??>
-	public void ${serviceBasic.service.addMethod}(${serviceBasic.entity.className?cap_first} ${serviceBasic.entity.className});
+public interface ${template.service.className?cap_first} {
+	<#if (template.service.addMethod)??>
+	public void ${template.service.addMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className});
+	</#if>
+
+	<#if (template.service.addBatchMethod)??>
+			public void ${template.service.addBatchMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className});
 	</#if>
 	
-	<#if (serviceBasic.service.updateMethod)??>
-	public void ${serviceBasic.service.updateMethod}(${serviceBasic.entity.className?cap_first} ${serviceBasic.entity.className});
+	<#if (template.service.updateMethod)??>
+	public void ${template.service.updateMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className});
 	</#if>
 	
-	<#if (serviceBasic.service.delMethod)??>
-	public void ${serviceBasic.service.delMethod}(Serializable id);
+	<#if (template.service.delMethod)??>
+	public void ${template.service.delMethod}(Serializable id);
 	</#if>
 	
-	<#if (serviceBasic.service.findByIdMethod)??>
-	public ${serviceBasic.entity.className?cap_first} ${serviceBasic.service.findByIdMethod}(Serializable id);
+	<#if (template.service.findByIdMethod)??>
+	public ${template.classInfo.className?cap_first} ${template.service.findByIdMethod}(Serializable id);
 	</#if>
 	
-	<#if (serviceBasic.service.delBatchMethod)??>
-	public void ${serviceBasic.service.delBatchMethod}(Serializable... id);
+	<#if (template.service.delBatchMethod)??>
+	public void ${template.service.delBatchMethod}(Serializable... id);
 	</#if>
 	
-	<#if (serviceBasic.service.updateBatchMethod)??>
-	public void ${serviceBasic.service.updateBatchMethod}(${serviceBasic.entity.className?cap_first}... ${serviceBasic.entity.className});
+	<#if (template.service.updateBatchMethod)??>
+	public void ${template.service.updateBatchMethod}(${template.classInfo.className?cap_first}... ${template.classInfo.className});
 	</#if>
 	
-	<#if (serviceBasic.service.findAllMethod)??>
-	public List<${serviceBasic.entity.className?cap_first}> ${serviceBasic.service.findAllMethod}();
+	<#if (template.service.findAllMethod)??>
+	public List<${template.classInfo.className?cap_first}> ${template.service.findAllMethod}();
 	</#if>
 }

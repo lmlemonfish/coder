@@ -1,95 +1,106 @@
-<#if (serviceBasic.service.packageName)??>
-package ${serviceBasic.service.packageName};
+<#if (template.service.packageName)??>
+package ${template.service.packageName};
 </#if>
 
 import java.io.Serializable;
-<#if (serviceBasic.service.findAllMethod)??>
+<#if (template.service.findAllMethod)??>
 import java.util.List;
 </#if>
-import org.springframework.stereotype.serviceBasic.service;
+import org.springframework.stereotype.template.service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
-<#if (serviceBasic.service.description)??>
-* ${serviceBasic.service.description}
+<#if (template.service.description)??>
+* @Description ${template.service.description}
 </#if>
-<#if (serviceBasic.service.author)??>
-* @author ${serviceBasic.service.author}
+<#if (template.service.author)??>
+* @author ${template.service.author}
 </#if>
+* @Date ${template.classInfo.date?string("yyyy/MM/dd HH:mm:ss")}
+* @Version 1.0
 */
 @Service
 @Transactional
-public class ${serviceBasic.service.className?cap_first}Impl implements ${serviceBasic.service.className?cap_first} {
-	<#if (serviceBasic.dao)??>
+public class ${template.service.className?cap_first}Impl implements ${template.service.className?cap_first} {
+	<#if (template.dao)??>
 	<#if useSpringAnno==1>
 	@Autowired
-	private ${serviceBasic.dao.className?cap_first} ${serviceBasic.dao.className};
+	private ${template.dao.className?cap_first} ${template.dao.className};
 	<#else>  
-    private ${serviceBasic.dao.className?cap_first} ${serviceBasic.dao.className} = new private ${serviceBasic.dao.className?cap_first} ${serviceBasic.dao.className}();;
+    private ${template.dao.className?cap_first} ${template.dao.className} = new private ${template.dao.className?cap_first} ${template.dao.className}();;
 	</#if>
 	</#if>
 
-	<#if (serviceBasic.service.addMethod)??>
+	<#if (template.service.addMethod)??>
 	@Override
-	public void ${serviceBasic.service.addMethod}(${serviceBasic.entity.className?cap_first} ${serviceBasic.entity.className}) {
-		<#if (serviceBasic.dao.addMethod)??>
-		${serviceBasic.dao.className}.${serviceBasic.dao.addMethod}(${serviceBasic.entity.className});
+	public void ${template.service.addMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className}) {
+		<#if (template.dao.addMethod)??>
+		${template.dao.className?uncap_first}.${template.dao.addMethod}(${template.classInfo.className});
+		</#if>
+	}
+	</#if>
+
+	<#if (template.service.addBatchMethod)??>
+		@Override
+		public void ${template.service.addBatchMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className}) {
+		<#if (template.dao.addBatchMethod)??>
+			${template.dao.className?uncap_first}.${template.dao.addBatchMethod}(${template.classInfo.className});
+		</#if>
+		}
+	</#if>
+	
+	<#if (template.service.updateMethod)??>
+	@Override
+	public void ${template.service.updateMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className}) {
+		<#if (template.dao.updateMethod)??>
+		${template.dao.className?uncap_first}.${template.dao.updateMethod}(${template.classInfo.className});
 		</#if>
 	}
 	</#if>
 	
-	<#if (serviceBasic.service.updateMethod)??>
+	<#if (template.service.delMethod)??>
 	@Override
-	public void ${serviceBasic.service.updateMethod}(${serviceBasic.entity.className?cap_first} ${serviceBasic.entity.className}) {
-		<#if (serviceBasic.dao.updateMethod)??>
-		${serviceBasic.dao.className}.${serviceBasic.dao.updateMethod}(${serviceBasic.entity.className});
+	public void ${template.service.delMethod}(Serializable id) {
+		<#if (template.dao.delMethod)??>
+		${template.dao.className?uncap_first}.${template.dao.delMethod}(id);
 		</#if>
 	}
 	</#if>
 	
-	<#if (serviceBasic.service.delMethod)??>
+	<#if (template.service.findByIdMethod)??>
 	@Override
-	public void ${serviceBasic.service.delMethod}(Serializable id) {
-		<#if (serviceBasic.dao.delMethod)??>
-		${serviceBasic.dao.className}.${serviceBasic.dao.delMethod}(id);
-		</#if>
-	}
-	</#if>
-	
-	<#if (serviceBasic.service.findByIdMethod)??>
-	@Override
-	public ${serviceBasic.entity.className?cap_first} ${serviceBasic.service.findByIdMethod}(Serializable id) {
-		<#if (serviceBasic.dao.findByIdMethod)??>
-		return ${serviceBasic.dao.className}.${serviceBasic.dao.findByIdMethod}(id);
+	public ${template.classInfo.className?cap_first} ${template.service.findByIdMethod}(Serializable id) {
+		<#if (template.dao.findByIdMethod)??>
+		return ${template.dao.className?uncap_first}.${template.dao.findByIdMethod}(id);
 		<#else>
 		return null;
 		</#if>
 	}
 	</#if>
 	
-	<#if (serviceBasic.service.delBatchMethod)??>
+	<#if (template.service.delBatchMethod)??>
 	@Override
-	public void ${serviceBasic.service.delBatchMethod}(Serializable... id) {
-		<#if (serviceBasic.dao.delBatchMethod)??>
-		${serviceBasic.dao.className}.${serviceBasic.dao.delBatchMethod}(id);
+	public void ${template.service.delBatchMethod}(Serializable... id) {
+		<#if (template.dao.delBatchMethod)??>
+		${template.dao.className?uncap_first}.${template.dao.delBatchMethod}(id);
 		</#if>
 	}
 	</#if>
 	
-	<#if (serviceBasic.service.updateBatchMethod)??>
+	<#if (template.service.updateBatchMethod)??>
 	@Override
-	public void ${serviceBasic.service.updateBatchMethod}(${serviceBasic.entity.className?cap_first}... ${serviceBasic.entity.className}) {
-		<#if (serviceBasic.dao.updateBatchMethod)??>
-		${serviceBasic.dao.className}.${serviceBasic.dao.updateBatchMethod}(${serviceBasic.entity.className});
+	public void ${template.service.updateBatchMethod}(${template.classInfo.className?cap_first}... ${template.classInfo.className}) {
+		<#if (template.dao.updateBatchMethod)??>
+		${template.dao.className?uncap_first}.${template.dao.updateBatchMethod}(${template.classInfo.className});
 		</#if>
 	}
 	</#if>
 	
-	<#if (serviceBasic.service.findAllMethod)??>
+	<#if (template.service.findAllMethod)??>
 	@Override
-	public List<${serviceBasic.entity.className?cap_first}> ${serviceBasic.service.findAllMethod}() {
-		<#if (serviceBasic.dao.findAllMethod)??>
-		return ${serviceBasic.dao.className}.${serviceBasic.dao.findAllMethod}();
+	public List<${template.classInfo.className?cap_first}> ${template.service.findAllMethod}() {
+		<#if (template.dao.findAllMethod)??>
+		return ${template.dao.className?uncap_first}.${template.dao.findAllMethod}();
 		<#else>
 		return null;
 		</#if>

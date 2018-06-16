@@ -47,6 +47,8 @@ public abstract class TemplateBuilder {
 
     public abstract void buildService();
 
+    public abstract void buildServiceImpl();
+
     public abstract void buildController();
 
     public Map<String, Object> getValueMap() { return valueMap; }
