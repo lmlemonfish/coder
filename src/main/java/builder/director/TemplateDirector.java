@@ -22,5 +22,9 @@ public class TemplateDirector {
         builder.builderEntity();
         builder.buildMapper();
     }
+    
+    public void buildEntityFile() {
+    	builder.builderEntity();
+    }
 
 }

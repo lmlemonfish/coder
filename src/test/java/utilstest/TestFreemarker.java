@@ -6,8 +6,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import entity.EntityData;
-import entity.ServiceFileData;
-import entity.basic.ServiceBasicData;
 import utils.Constants;
 import utils.FreemarkerUtil;
 
@@ -56,7 +54,7 @@ public class TestFreemarker {
 		FreemarkerUtil.produceFile("entity.ftl", valueMap, "E:/TestDemo.java");
 	}
 
-	@Test
+	/*@Test
 	public void test2() {
 		Map<String, Object> valueMap = new HashMap<>();
 		
@@ -141,5 +139,5 @@ public class TestFreemarker {
 		FreemarkerUtil.produceFile("service.ftl", valueMap, "E:/TestService.java");
 		FreemarkerUtil.produceFile("serviceImpl.ftl", valueMap, "E:/TestServiceImpl.java");
 		FreemarkerUtil.produceFile("controllor.ftl", valueMap, "E:/TestControllor.java");
-	}
+	}*/
 }
