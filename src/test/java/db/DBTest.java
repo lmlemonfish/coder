@@ -26,6 +26,14 @@ public class DBTest {
     }
 
     @Test
+    public void testConnectionForOracle() {
+        CommonDBService service = engine.getCommonDBService("Oracle");
+        boolean isCon = service.checkConnection("jdbc:oracle:thin:@192.168.147.195:1521:ORCL", "stategrid", "stategrid");
+        assert(isCon);
+        System.out.println(engine.getConInfo());
+    }
+
+    @Test
     public void getTableInfo() {
         //测试连接
         testConnection();

@@ -1,15 +1,14 @@
 package utilstest;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
-
 import entity.EntityData;
-import entity.ServiceFileData;
-import entity.basic.ServiceBasicData;
+import entity.FileFromPojoData;
+import entity.basic.MethodBasicData;
+import org.junit.Test;
 import utils.Constants;
 import utils.FreemarkerUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestFreemarker {
 	
@@ -87,7 +86,7 @@ public class TestFreemarker {
 		
 		valueMap.put("entity", entity);
 		
-		ServiceBasicData dao = new ServiceBasicData();
+		MethodBasicData dao = new MethodBasicData();
 		dao.setPackageName(entity.getPackageName());
 		dao.setClassName("TestDao");
 		dao.setDescription("test dao");
@@ -100,7 +99,7 @@ public class TestFreemarker {
 		dao.setUpdateBatchMethod("updateBatch");
 		dao.setFindAllMethod("list");
 		
-		ServiceBasicData service = new ServiceBasicData();
+		MethodBasicData service = new MethodBasicData();
 		service.setPackageName(entity.getPackageName());
 		service.setClassName("TestService");
 		service.setDescription("test service");
@@ -113,7 +112,7 @@ public class TestFreemarker {
 		service.setUpdateBatchMethod("updateBatch");
 		service.setFindAllMethod("list");
 		
-		ServiceBasicData controllor = new ServiceBasicData();
+		MethodBasicData controllor = new MethodBasicData();
 		controllor.setPackageName(entity.getPackageName());
 		controllor.setClassName("TestControllor");
 		controllor.setDescription("test controllor");
@@ -127,7 +126,7 @@ public class TestFreemarker {
 		controllor.setFindAllMethod("list");
 		
 
-		ServiceFileData serviceBasic = new ServiceFileData();
+		FileFromPojoData serviceBasic = new FileFromPojoData();
 		serviceBasic.setControllor(controllor);
 		serviceBasic.setService(service);
 		serviceBasic.setEntity(entity);
