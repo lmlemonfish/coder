@@ -24,7 +24,7 @@ public class TemplateFromDbBuilder extends TemplateBuilder {
     }
 
     @Override
-    public void builderEntity() {
+    public void buildEntity() {
         //转换后的实体 info,方便后面mapper的生成
         TableInfo data = new TableInfo();
         //获取valueMap数据

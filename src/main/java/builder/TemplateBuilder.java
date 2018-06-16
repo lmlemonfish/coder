@@ -39,7 +39,7 @@ public abstract class TemplateBuilder {
         }
     }
 
-    public abstract void builderEntity();
+    public abstract void buildEntity();
 
     public abstract void buildMapper();
 

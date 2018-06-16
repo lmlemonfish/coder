@@ -19,7 +19,7 @@ public class TemplateDirector {
 
     public void buildEntityTemplate() {
 
-        builder.builderEntity();
+        builder.buildEntity();
         builder.buildDao();
         builder.buildMapper();
         builder.buildService();
