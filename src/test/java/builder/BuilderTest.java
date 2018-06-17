@@ -48,19 +48,25 @@ public class BuilderTest {
         basicData.setDescription(info.getNote());
 
         MethodBasicData dao = setBuildDao(valueMap);
+        MethodBasicData mapper = setBuildDao(valueMap);
         MethodBasicData service = setBuildService(valueMap);
+        MethodBasicData serviceImpl = setBuildService(valueMap);
         MethodBasicData controller = setBuildController(valueMap);
 
         fileFromDbData.setTableInfo(info);
         fileFromDbData.setClassInfo(basicData);
         fileFromDbData.setDao(dao);
+        fileFromDbData.setMapper(mapper);
+        fileFromDbData.setServiceImpl(serviceImpl);
         fileFromDbData.setService(service);
         fileFromDbData.setControllor(controller);
+
+        fileFromDbData.setPackagePre("com.lm");
 
         valueMap.put(BuildEnum.TEMPLATE.getModelKey(),fileFromDbData);
         valueMap.put(Constants.IS_USE_SPRING_ANNOTATION, Constants.USE_SPRING_ANNOTATION);
         //建造者传入指挥者 --> 生成模板
-        TemplateFromDbBuilder builder = new TemplateFromDbBuilder(valueMap,"E:/TestDemo.java");
+        TemplateFromDbBuilder builder = new TemplateFromDbBuilder(valueMap,"E:/lmtest");
         TemplateDirector director = new TemplateDirector(builder);
         director.buildEntityTemplate();
     }
@@ -68,7 +74,7 @@ public class BuilderTest {
     private ClassBasicData setClassBasicData() {
         ClassBasicData classData = new ClassBasicData();
         classData.setAuthor("LM");
-        classData.setPackageName("com.test");
+        classData.setPackageName("test");
         return classData;
     }
 
@@ -76,7 +82,7 @@ public class BuilderTest {
 
     private MethodBasicData setBuildDao(Map map) {
         MethodBasicData dao = new MethodBasicData();
-        dao.setPackageName("com.test");
+        dao.setPackageName("test");
         dao.setClassName("TestDao");
         dao.setDescription("test dao");
         dao.setAuthor("LM");
@@ -90,9 +96,19 @@ public class BuilderTest {
         dao.setAddBatchMethod("addBatch");
         return dao;
     }
+
+    private MethodBasicData setBuildMapper(Map map) {
+        MethodBasicData mapper = new MethodBasicData();
+        mapper.setPackageName("test");
+        mapper.setClassName("TestMapper");
+        mapper.setDescription("test mapper");
+        mapper.setAuthor("LM");
+        return mapper;
+    }
+
     private MethodBasicData setBuildService(Map map) {
         MethodBasicData service = new MethodBasicData();
-        service.setPackageName("com.test");
+        service.setPackageName("test");
         service.setClassName("TestService");
         service.setDescription("test service");
         service.setAuthor("LM");
@@ -106,9 +122,19 @@ public class BuilderTest {
         service.setAddBatchMethod("addBatch");
         return service;
     }
+
+    private MethodBasicData setBuildServiceImpl(Map map) {
+        MethodBasicData serviceImpl = new MethodBasicData();
+        serviceImpl.setPackageName("test");
+        serviceImpl.setClassName("TestServiceImpl");
+        serviceImpl.setDescription("test serviceImpl");
+        serviceImpl.setAuthor("LM");
+        return serviceImpl;
+    }
+
     private MethodBasicData setBuildController(Map map) {
         MethodBasicData controller = new MethodBasicData();
-        controller.setPackageName("com.test");
+        controller.setPackageName("test");
         controller.setClassName("TestController");
         controller.setDescription("test controller");
         controller.setAuthor("LM");

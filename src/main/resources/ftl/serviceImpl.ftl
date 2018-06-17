@@ -1,5 +1,5 @@
-<#if (template.service.packageName)??>
-package ${template.service.packageName};
+<#if (template.serviceImpl.packageName)??>
+package ${template.serviceImpl.packageName};
 </#if>
 
 import java.io.Serializable;
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 <#if (template.service.description)??>
-* @Description ${template.service.description}
+* @Description ${template.serviceImpl.description}
 </#if>
-<#if (template.service.author)??>
+<#if (template.serviceImpl.author)??>
 * @author ${template.service.author}
 </#if>
 * @Date ${template.classInfo.date?string("yyyy/MM/dd HH:mm:ss")}

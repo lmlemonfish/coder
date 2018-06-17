@@ -1,10 +1,9 @@
 package builder.concrete;
 
-import java.util.Map;
-
 import builder.TemplateBuilder;
-import constants.BuildEnum;
 import utils.FreemarkerUtil;
+
+import java.util.Map;
 
 /**
  * 
@@ -18,7 +17,7 @@ public class TemplateFromPojoBuilder extends TemplateBuilder {
 	}
 
 	@Override
-	public void builderEntity() {
+	public void buildEntity() {
 		FreemarkerUtil.produceFile("entity.ftl", getValueMap(), getPath());
 	}
 
@@ -34,6 +33,11 @@ public class TemplateFromPojoBuilder extends TemplateBuilder {
 
 	@Override
 	public void buildService() {
+
+	}
+
+	@Override
+	public void buildServiceImpl() {
 
 	}
 

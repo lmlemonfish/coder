@@ -28,7 +28,7 @@ public class TemplateDirector {
     }
     
     public void buildEntityFile() {
-    	builder.builderEntity();
+    	builder.buildEntity();
     }
 
 }
