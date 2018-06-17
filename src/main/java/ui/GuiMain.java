@@ -4,11 +4,15 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
+import utils.ThreadPoolUtils;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GuiMain {
     private JPanel mainPanel;
@@ -71,36 +75,39 @@ public class GuiMain {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //弹出一个选择界面
-                //1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,db.service,controller)
-                chooseFrame = new JFrame("选择生成方式");
-                chooseFrame.setSize(300, 300);
-                //chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                //chooseFrame.pack();
-                chooseFrame.setVisible(true);
-                chooseFrame.setLocationRelativeTo(null);
-                //设置布局
-                chooseFrame.setLayout(new FlowLayout());
-                genByPojoButton = new JButton("根据实体生成");
-                genByDbButton = new JButton("根据数据库表生成");
-                //genByDbButton.setPreferredSize(new Dimension(100, 100));
-
-                //添加监听事件
-                addListenerToGenButton();
-                //设置到面板
-                chooseFrame.add(genByPojoButton);
-                chooseFrame.add(genByDbButton);
-                //设置字体
-                font = $$$getFont$$$(null, -1, 24, genByPojoButton.getFont());
-                if (font != null) {
-                    genByPojoButton.setFont(font);
-                    genByDbButton.setFont(font);
+                if (codeButton.isEnabled()) {
+                	//弹出一个选择界面
+                	//1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,db.service,controller)
+                	chooseFrame = new JFrame("选择生成方式");
+                	chooseFrame.setSize(300, 300);
+                	//chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                	//chooseFrame.pack();
+                	chooseFrame.setVisible(true);
+                	chooseFrame.setLocationRelativeTo(null);
+                	//设置布局
+                	chooseFrame.setLayout(new FlowLayout());
+                	genByPojoButton = new JButton("根据实体生成");
+                	genByDbButton = new JButton("根据数据库表生成");
+                	//genByDbButton.setPreferredSize(new Dimension(100, 100));
+                	
+                	//添加监听事件
+                	addListenerToGenButton();
+                	//设置到面板
+                	chooseFrame.add(genByPojoButton);
+                	chooseFrame.add(genByDbButton);
+                	//设置字体
+                	font = $$$getFont$$$(null, -1, 24, genByPojoButton.getFont());
+                	if (font != null) {
+                		genByPojoButton.setFont(font);
+                		genByDbButton.setFont(font);
+                	}
+                	
                 }
             }
         });
 
     }
-
+    
     private void addListenerToGenButton() {
         // 根据数据库表生成代码按钮点击事件
         genByDbButton.addMouseListener(new MouseAdapter() {
@@ -110,7 +117,23 @@ public class GuiMain {
                 //父窗口不可见
                 chooseFrame.setVisible(false);
 
-                new ConfirmInfoFrame();
+                codeButton.setEnabled(false);// 设置不可点击
+                
+                ConfirmInfoFrame confirmInfoFrame = ConfirmInfoFrame.getInstance();
+                
+                ThreadPoolUtils.execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						while (!confirmInfoFrame.isShutDown()) {
+							
+						}
+						
+						codeButton.setEnabled(true);
+						
+					}
+				});
+                
             }
 
         });
@@ -120,60 +143,22 @@ public class GuiMain {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 chooseFrame.setVisible(false);
-                new ProduceEntityFrame();
-                /*//实体填写窗口
-                //1.GridBoder布局
-                GridLayout gridLayout = new GridLayout();
-                //2.flow
-                FlowLayout flowLayout = new FlowLayout();
-                JFrame pojoFrame = newInstanceJFrame("填写实体对象", flowLayout, 900, 800);
-
-                //父窗口不可见
-                chooseFrame.setVisible(false);
-                //添加到pojo填写窗口
-                //添加表名
-                JLabel pojoTabelLabel = new JLabel("表名:");
-                JLabel pojoTabelComLabel = new JLabel("注释:");
-                JLabel isGenDbLabel = new JLabel("是否生成数据库对应的表:");
-                JLabel isGenAllLabel = new JLabel("是否生成对应的(持久层/业务层/控制层):");
-                JTextField pojoTabelField = new JTextField();
-                JTextField commentField = new JTextField();
-                //扩展按钮
-                JButton addRowBut = new JButton("新增一行");
-                JButton commitBut = new JButton("确定");
-                JRadioButton isGenDb = new JRadioButton();
-                JRadioButton isGenAll = new JRadioButton();
-                //字体
-                if (font != null) {
-                    pojoTabelLabel.setFont(font);
-                    pojoTabelField.setFont(font);
-                    pojoTabelComLabel.setFont(font);
-                    commentField.setFont(font);
-                    pojoTabelField.setColumns(13);
-                    commentField.setColumns(18);
-                    commitBut.setFont(font);
-                    addRowBut.setFont(font);
-                    isGenDbLabel.setFont(font);
-                    isGenAllLabel.setFont(font);
-                }
-                //添加列
-                pojoFrame.add(pojoTabelLabel);
-                pojoFrame.add(pojoTabelField);
-                pojoFrame.add(pojoTabelComLabel);
-                pojoFrame.add(commentField);
-                //先加5行
-                addRows(pojoFrame);
-                addRows(pojoFrame);
-                addRows(pojoFrame);
-                addRows(pojoFrame);
-                addRows(pojoFrame);
-                //加入扩展按钮
-                pojoFrame.add(isGenDbLabel);
-                pojoFrame.add(isGenDb);
-                pojoFrame.add(isGenAllLabel);
-                pojoFrame.add(isGenAll);
-                pojoFrame.add(commitBut);
-                pojoFrame.add(addRowBut);*/
+                codeButton.setEnabled(false);// 设置不可点击
+                ProduceEntityFrame produceEntityFrame = new ProduceEntityFrame();
+                
+                ThreadPoolUtils.execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						while (!produceEntityFrame.isShutDown()) {
+							
+						}
+						
+						codeButton.setEnabled(true);
+						
+					}
+				});
+                
             }
 
             private void addRows(JFrame frame) {

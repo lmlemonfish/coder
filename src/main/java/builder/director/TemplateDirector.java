@@ -26,5 +26,9 @@ public class TemplateDirector {
         builder.buildServiceImpl();
         builder.buildController();
     }
+    
+    public void buildEntityFile() {
+    	builder.builderEntity();
+    }
 
 }
