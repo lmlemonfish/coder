@@ -25,7 +25,9 @@ public class CommonOracleServiceImpl implements CommonDBService {
     }
 
     @Override
-    public boolean checkConnection(String url, String userName, String password) {
+    public boolean checkConnection(String ipAdress, String dbName, String post, String userName, String password) {
+
+        String url = "jdbc:oracle:thin:@" + ipAdress + ":" + post +":" + dbName;
 
         Connection connection = JdbcUtils.getConnection(driver, url, userName, password);
         if(connection != null) {

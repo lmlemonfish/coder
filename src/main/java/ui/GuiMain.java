@@ -1,9 +1,16 @@
 package ui;
 
+import com.google.common.base.Strings;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-
+import db.service.CommonDBService;
+import engine.CoderEngine;
+import entity.ConInfo;
+import entity.FileFromDbData;
+import entity.TableInfo;
+import entity.basic.ClassBasicData;
+import entity.basic.MethodBasicData;
 import utils.ThreadPoolUtils;
 
 import javax.swing.*;
@@ -11,8 +18,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Date;
 
 public class GuiMain {
     private JPanel mainPanel;
@@ -23,7 +29,7 @@ public class GuiMain {
     private JTextField cg_authorText;
     private JTextField cg_entityText;
     private JTextField cg_daoText;
-    private JComboBox comboBox1;
+    private JComboBox db_type;
     private JTextField db_localIpText;
     private JButton testCon;
     private JLabel db_localIpLab;
@@ -63,10 +69,34 @@ public class GuiMain {
     private JLabel cg_batchUpdateLab;
     private JLabel cd_deleteLab;
     private JRadioButton radioButton1;
+    private JLabel cg_batchAddLab;
+    private JTextField cg_batchAddText;
+    private JButton cg_okButton;
     private JButton genByPojoButton;
     private JButton genByDbButton;
     private JFrame chooseFrame;
     private Font font;
+
+    static String packNameText;
+    static String authorText;
+    static String cgEntityText;
+    static String cgDaoText;
+    static String cgServiceText;
+    static String cgServiceImplText;
+    static String cgControllerText;
+    static String cgMapperText;
+    static String cgAddText;
+    static String cgUpdateText;
+    static String cdDeleteText;
+    static String cgGetText;
+    static String cgBatchDelText;
+    static String cgBatchUpdateText;
+    static String cgListText;
+    static String cgBatchAddText;
+
+    //拿到Coder引擎
+    CoderEngine engine = new CoderEngine();
+    static CommonDBService dbService = null;
 
     public GuiMain() {
         //mainPanel.setSize(800,800);
@@ -76,38 +106,60 @@ public class GuiMain {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (codeButton.isEnabled()) {
-                	//弹出一个选择界面
-                	//1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,db.service,controller)
-                	chooseFrame = new JFrame("选择生成方式");
-                	chooseFrame.setSize(300, 300);
-                	//chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                	//chooseFrame.pack();
-                	chooseFrame.setVisible(true);
-                	chooseFrame.setLocationRelativeTo(null);
-                	//设置布局
-                	chooseFrame.setLayout(new FlowLayout());
-                	genByPojoButton = new JButton("根据实体生成");
-                	genByDbButton = new JButton("根据数据库表生成");
-                	//genByDbButton.setPreferredSize(new Dimension(100, 100));
-                	
-                	//添加监听事件
-                	addListenerToGenButton();
-                	//设置到面板
-                	chooseFrame.add(genByPojoButton);
-                	chooseFrame.add(genByDbButton);
-                	//设置字体
-                	font = $$$getFont$$$(null, -1, 24, genByPojoButton.getFont());
-                	if (font != null) {
-                		genByPojoButton.setFont(font);
-                		genByDbButton.setFont(font);
-                	}
-                	
+                    //弹出一个选择界面
+                    //1.该选择界面为 -- 根据用户输入实体生成(可勾选 one.是否生成数据库表 two.是否生成dao,db.service,controller)
+                    chooseFrame = new JFrame("选择生成方式");
+                    chooseFrame.setSize(300, 300);
+                    //chooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    //chooseFrame.pack();
+                    chooseFrame.setVisible(true);
+                    chooseFrame.setLocationRelativeTo(null);
+                    //设置布局
+                    chooseFrame.setLayout(new FlowLayout());
+                    genByPojoButton = new JButton("根据实体生成");
+                    genByDbButton = new JButton("根据数据库表生成");
+                    //genByDbButton.setPreferredSize(new Dimension(100, 100));
+
+                    //添加监听事件
+                    addListenerToGenButton();
+                    //设置到面板
+                    chooseFrame.add(genByPojoButton);
+                    chooseFrame.add(genByDbButton);
+                    //设置字体
+                    font = $$$getFont$$$(null, -1, 24, genByPojoButton.getFont());
+                    if (font != null) {
+                        genByPojoButton.setFont(font);
+                        genByDbButton.setFont(font);
+                    }
+
                 }
             }
         });
 
+        //连接测试 鼠标事件
+        testCon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                //获取类类型
+                String dbType = db_type.getSelectedItem().toString();
+                //获得文本框的值
+                String localIpText = db_localIpText.getText();
+                String dbNameText = db_DbNameText.getText();
+                String dbPostText = db_postText.getText();
+                String dbUserNameText = db_userNameText.getText();
+                String dbPasswordText = db_passwordText.getText();
+                // 拿到service
+                dbService = engine.getCommonDBService(dbType.trim());
+                //连接数据库
+                boolean isSuccess = dbService.checkConnection("localhost", "music", "3306", "root", "root");
+                if (isSuccess) {
+                    JOptionPane.showMessageDialog(null, "连接成功!!", "提示", JOptionPane.QUESTION_MESSAGE);
+                }
+            }
+        });
     }
-    
+
     private void addListenerToGenButton() {
         // 根据数据库表生成代码按钮点击事件
         genByDbButton.addMouseListener(new MouseAdapter() {
@@ -118,25 +170,35 @@ public class GuiMain {
                 chooseFrame.setVisible(false);
 
                 codeButton.setEnabled(false);// 设置不可点击
-                
-                ConfirmInfoFrame confirmInfoFrame = ConfirmInfoFrame.getInstance();
-                
+
+                if (!ConInfo.isConSuccess()) {
+                    JOptionPane.showMessageDialog(null, "数据库未连接成功!", "错误", JOptionPane.INFORMATION_MESSAGE);
+                    codeButton.setEnabled(true);// 设置可点击
+                    return;
+                }
+
+                //包名
+                String packNameText = cg_packNameText.getText();
+                if (Strings.isNullOrEmpty(packNameText)) {
+                    JOptionPane.showMessageDialog(null, "命名规范(必填项)未填!", "错误", JOptionPane.INFORMATION_MESSAGE);
+                    codeButton.setEnabled(true);// 设置可点击
+                    return;
+                }
+                ConfirmInfoFrame confirmInfoFrame = ConfirmInfoFrame.getInstance(GuiMain.this);
+
                 ThreadPoolUtils.execute(new Runnable() {
-					
-					@Override
-					public void run() {
-						while (!confirmInfoFrame.isShutDown()) {
-							
-						}
-						
-						codeButton.setEnabled(true);
-						
-					}
-				});
-                
+                    @Override
+                    public void run() {
+                        while (!confirmInfoFrame.isShutDown()) {
+
+                        }
+                        codeButton.setEnabled(true);
+                    }
+                });
             }
 
         });
+
 
         genByPojoButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -145,20 +207,20 @@ public class GuiMain {
                 chooseFrame.setVisible(false);
                 codeButton.setEnabled(false);// 设置不可点击
                 ProduceEntityFrame produceEntityFrame = new ProduceEntityFrame();
-                
+
                 ThreadPoolUtils.execute(new Runnable() {
-					
-					@Override
-					public void run() {
-						while (!produceEntityFrame.isShutDown()) {
-							
-						}
-						
-						codeButton.setEnabled(true);
-						
-					}
-				});
-                
+
+                    @Override
+                    public void run() {
+                        while (!produceEntityFrame.isShutDown()) {
+
+                        }
+
+                        codeButton.setEnabled(true);
+
+                    }
+                });
+
             }
 
             private void addRows(JFrame frame) {
@@ -204,6 +266,119 @@ public class GuiMain {
         });
     }
 
+    public FileFromDbData setBuildFileDateInit(TableInfo info, String tableName, String path) {
+
+        FileFromDbData fileFromDbData = new FileFromDbData();
+
+        //包名
+        packNameText = cg_packNameText.getText();
+        //作者
+        authorText = cg_authorText.getText();
+        // entity后缀
+        cgEntityText = cg_entityText.getText();
+        // dao
+        cgDaoText = cg_daoText.getText();
+        // service
+        cgServiceText = cg_serviceText.getText();
+        // serviceImpl
+        cgServiceImplText = cg_serviceImplText.getText();
+        // controller
+        cgControllerText = cg_controllerText.getText();
+        // mapper
+        cgMapperText = cg_mapperText.getText();
+        // save
+        cgAddText = cg_addText.getText();
+        // update
+        cgUpdateText = cg_updateText.getText();
+        //del one
+        cdDeleteText = cd_deleteText.getText();
+        // get one
+        cgGetText = cg_getText.getText();
+        // del batch
+        cgBatchDelText = cg_batchDelText.getText();
+        // update batch
+        cgBatchUpdateText = cg_batchUpdateText.getText();
+        // list
+        cgListText = cg_listText.getText();
+        // add batch
+        cgBatchAddText = cg_batchAddText.getText();
+
+        //设置类基本信息 (命名规范等)
+
+        String convertTableName = info.convertTableName();
+
+        ClassBasicData basicData = new ClassBasicData();
+        basicData.setClassName(convertTableName + cgEntityText);
+        basicData.setPackageName(packNameText);
+        basicData.setDate(new Date());
+        basicData.setAuthor(authorText);
+        basicData.setDescription(info.getNote());
+        //设置dao
+        MethodBasicData dao = new MethodBasicData();
+        dao.setPackageName(packNameText);
+        dao.setClassName(convertTableName + cgDaoText);
+        dao.setDescription(convertTableName + " dao层");
+        dao.setAuthor(authorText);
+        dao.setAddMethod(cgAddText);
+        dao.setUpdateMethod(cgUpdateText);
+        dao.setDelMethod(cdDeleteText);
+        dao.setFindByIdMethod(cgGetText);
+        dao.setDelBatchMethod(cgBatchDelText);
+        dao.setUpdateBatchMethod(cgBatchUpdateText);
+        dao.setFindAllMethod(cgListText);
+        dao.setAddBatchMethod(cgBatchAddText);
+        //Mapper
+        MethodBasicData mapper = new MethodBasicData();
+        mapper.setPackageName(packNameText);
+        mapper.setClassName(convertTableName + cgMapperText);
+        mapper.setAuthor(authorText);
+        //Service
+        MethodBasicData service = new MethodBasicData();
+        service.setPackageName(packNameText);
+        service.setClassName(convertTableName + cgServiceText);
+        service.setDescription(convertTableName + " service层");
+        service.setAuthor(authorText);
+        service.setAddMethod(cgAddText);
+        service.setUpdateMethod(cgUpdateText);
+        service.setDelMethod(cdDeleteText);
+        service.setFindByIdMethod(cgGetText);
+        service.setDelBatchMethod(cgBatchDelText);
+        service.setUpdateBatchMethod(cgBatchUpdateText);
+        service.setFindAllMethod(cgListText);
+        service.setAddBatchMethod(cgBatchAddText);
+        //ServiceImpl
+        MethodBasicData serviceImpl = new MethodBasicData();
+        serviceImpl.setPackageName(packNameText);
+        serviceImpl.setClassName(convertTableName + cgServiceImplText);
+        serviceImpl.setDescription(convertTableName + " serviceImpl层");
+        serviceImpl.setAuthor(authorText);
+        // Controller
+        MethodBasicData controller = new MethodBasicData();
+        controller.setPackageName(packNameText);
+        controller.setClassName(convertTableName + cgControllerText);
+        controller.setDescription(convertTableName + " controller层");
+        controller.setAuthor(authorText);
+        controller.setAddMethod(cgAddText);
+        controller.setUpdateMethod(cgUpdateText);
+        controller.setDelMethod(cdDeleteText);
+        controller.setFindByIdMethod(cgGetText);
+        controller.setDelBatchMethod(cgBatchDelText);
+        controller.setUpdateBatchMethod(cgBatchUpdateText);
+        controller.setFindAllMethod(cgListText);
+        controller.setAddBatchMethod(cgBatchAddText);
+
+        fileFromDbData.setTableInfo(info);
+        fileFromDbData.setClassInfo(basicData);
+        fileFromDbData.setDao(dao);
+        fileFromDbData.setMapper(mapper);
+        fileFromDbData.setServiceImpl(serviceImpl);
+        fileFromDbData.setService(service);
+        fileFromDbData.setControllor(controller);
+        //TODO 需要改为配置文件解析
+        fileFromDbData.setPackagePre("com.lm");
+        return fileFromDbData;
+    }
+
     /**
      * 根据布局对象和窗口名称生成窗口对象
      *
@@ -237,6 +412,10 @@ public class GuiMain {
         int screenWidth = screenSize.width; // 获取屏幕的宽
         int screenHeight = screenSize.height; // 获取屏幕的高
         frame.setLocation(screenWidth / 5 - windowWidth / 3, screenHeight / 5 - windowHeight / 3);// 设置窗口居中显示
+    }
+
+    public CommonDBService getDbService() {
+        return this.dbService;
     }
 
     {
@@ -309,6 +488,7 @@ public class GuiMain {
         cg_packNameText = new JTextField();
         Font cg_packNameTextFont = this.$$$getFont$$$(null, -1, 24, cg_packNameText.getFont());
         if (cg_packNameTextFont != null) cg_packNameText.setFont(cg_packNameTextFont);
+        cg_packNameText.setText("");
         cg_panel.add(cg_packNameText, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
         cg_authorText = new JTextField();
         Font cg_authorTextFont = this.$$$getFont$$$(null, -1, 24, cg_authorText.getFont());
@@ -317,6 +497,7 @@ public class GuiMain {
         cg_entityText = new JTextField();
         Font cg_entityTextFont = this.$$$getFont$$$(null, -1, 24, cg_entityText.getFont());
         if (cg_entityTextFont != null) cg_entityText.setFont(cg_entityTextFont);
+        cg_entityText.setText("Entity");
         cg_panel.add(cg_entityText, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_daoLab = new JLabel();
         Font cg_daoLabFont = this.$$$getFont$$$(null, -1, 24, cg_daoLab.getFont());
@@ -326,6 +507,7 @@ public class GuiMain {
         cg_daoText = new JTextField();
         Font cg_daoTextFont = this.$$$getFont$$$(null, -1, 24, cg_daoText.getFont());
         if (cg_daoTextFont != null) cg_daoText.setFont(cg_daoTextFont);
+        cg_daoText.setText("Dao");
         cg_panel.add(cg_daoText, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_serviceLab = new JLabel();
         Font cg_serviceLabFont = this.$$$getFont$$$(null, -1, 24, cg_serviceLab.getFont());
@@ -335,6 +517,7 @@ public class GuiMain {
         cg_serviceText = new JTextField();
         Font cg_serviceTextFont = this.$$$getFont$$$(null, -1, 24, cg_serviceText.getFont());
         if (cg_serviceTextFont != null) cg_serviceText.setFont(cg_serviceTextFont);
+        cg_serviceText.setText("Service");
         cg_panel.add(cg_serviceText, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_serviceImplLab = new JLabel();
         Font cg_serviceImplLabFont = this.$$$getFont$$$(null, -1, 24, cg_serviceImplLab.getFont());
@@ -344,6 +527,7 @@ public class GuiMain {
         cg_serviceImplText = new JTextField();
         Font cg_serviceImplTextFont = this.$$$getFont$$$(null, -1, 24, cg_serviceImplText.getFont());
         if (cg_serviceImplTextFont != null) cg_serviceImplText.setFont(cg_serviceImplTextFont);
+        cg_serviceImplText.setText("ServiceImpl");
         cg_panel.add(cg_serviceImplText, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_controllerLab = new JLabel();
         Font cg_controllerLabFont = this.$$$getFont$$$(null, -1, 24, cg_controllerLab.getFont());
@@ -358,51 +542,56 @@ public class GuiMain {
         cg_controllerText = new JTextField();
         Font cg_controllerTextFont = this.$$$getFont$$$(null, -1, 24, cg_controllerText.getFont());
         if (cg_controllerTextFont != null) cg_controllerText.setFont(cg_controllerTextFont);
+        cg_controllerText.setText("Controller");
         cg_panel.add(cg_controllerText, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_mapperText = new JTextField();
         Font cg_mapperTextFont = this.$$$getFont$$$(null, -1, 24, cg_mapperText.getFont());
         if (cg_mapperTextFont != null) cg_mapperText.setFont(cg_mapperTextFont);
+        cg_mapperText.setText("Mapper");
         cg_panel.add(cg_mapperText, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_addText = new JTextField();
         Font cg_addTextFont = this.$$$getFont$$$(null, -1, 24, cg_addText.getFont());
         if (cg_addTextFont != null) cg_addText.setFont(cg_addTextFont);
+        cg_addText.setText("save");
         cg_panel.add(cg_addText, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_updateText = new JTextField();
         Font cg_updateTextFont = this.$$$getFont$$$(null, -1, 24, cg_updateText.getFont());
         if (cg_updateTextFont != null) cg_updateText.setFont(cg_updateTextFont);
+        cg_updateText.setText("update");
         cg_panel.add(cg_updateText, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cd_deleteText = new JTextField();
         Font cd_deleteTextFont = this.$$$getFont$$$(null, -1, 24, cd_deleteText.getFont());
         if (cd_deleteTextFont != null) cd_deleteText.setFont(cd_deleteTextFont);
+        cd_deleteText.setText("delById");
         cg_panel.add(cd_deleteText, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_getText = new JTextField();
         Font cg_getTextFont = this.$$$getFont$$$(null, -1, 24, cg_getText.getFont());
         if (cg_getTextFont != null) cg_getText.setFont(cg_getTextFont);
+        cg_getText.setText("loadById");
         cg_panel.add(cg_getText, new GridConstraints(5, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_batchDelText = new JTextField();
         Font cg_batchDelTextFont = this.$$$getFont$$$(null, -1, 24, cg_batchDelText.getFont());
         if (cg_batchDelTextFont != null) cg_batchDelText.setFont(cg_batchDelTextFont);
+        cg_batchDelText.setText("delBatch");
         cg_panel.add(cg_batchDelText, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_batchUpdateText = new JTextField();
         Font cg_batchUpdateTextFont = this.$$$getFont$$$(null, -1, 24, cg_batchUpdateText.getFont());
         if (cg_batchUpdateTextFont != null) cg_batchUpdateText.setFont(cg_batchUpdateTextFont);
+        cg_batchUpdateText.setText("updateBatch");
         cg_panel.add(cg_batchUpdateText, new GridConstraints(6, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_listText = new JTextField();
         Font cg_listTextFont = this.$$$getFont$$$(null, -1, 24, cg_listText.getFont());
         if (cg_listTextFont != null) cg_listText.setFont(cg_listTextFont);
+        cg_listText.setText("list");
         cg_panel.add(cg_listText, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JTextField textField1 = new JTextField();
         Font textField1Font = this.$$$getFont$$$(null, -1, 24, textField1.getFont());
         if (textField1Font != null) textField1.setFont(textField1Font);
-        cg_panel.add(textField1, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        cg_panel.add(textField1, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JTextField textField2 = new JTextField();
         Font textField2Font = this.$$$getFont$$$(null, -1, 24, textField2.getFont());
         if (textField2Font != null) textField2.setFont(textField2Font);
-        cg_panel.add(textField2, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JTextField textField3 = new JTextField();
-        Font textField3Font = this.$$$getFont$$$(null, -1, 24, textField3.getFont());
-        if (textField3Font != null) textField3.setFont(textField3Font);
-        cg_panel.add(textField3, new GridConstraints(8, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        cg_panel.add(textField2, new GridConstraints(8, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         cg_addLab = new JLabel();
         Font cg_addLabFont = this.$$$getFont$$$(null, -1, 24, cg_addLab.getFont());
         if (cg_addLabFont != null) cg_addLab.setFont(cg_addLabFont);
@@ -443,24 +632,36 @@ public class GuiMain {
         if (cg_batchUpdateLabFont != null) cg_batchUpdateLab.setFont(cg_batchUpdateLabFont);
         cg_batchUpdateLab.setText("批量更新方法名");
         cg_panel.add(cg_batchUpdateLab, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(39, 30), null, 0, false));
+        cg_batchAddLab = new JLabel();
+        Font cg_batchAddLabFont = this.$$$getFont$$$(null, -1, 24, cg_batchAddLab.getFont());
+        if (cg_batchAddLabFont != null) cg_batchAddLab.setFont(cg_batchAddLabFont);
+        cg_batchAddLab.setText("批量新增");
+        cg_panel.add(cg_batchAddLab, new GridConstraints(7, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(39, 30), null, 0, false));
         final JLabel label2 = new JLabel();
         Font label2Font = this.$$$getFont$$$(null, -1, 24, label2.getFont());
         if (label2Font != null) label2.setFont(label2Font);
         label2.setText("备用");
-        cg_panel.add(label2, new GridConstraints(7, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(39, 30), null, 0, false));
-        final JLabel label3 = new JLabel();
-        Font label3Font = this.$$$getFont$$$(null, -1, 24, label3.getFont());
-        if (label3Font != null) label3.setFont(label3Font);
-        label3.setText("备用");
-        cg_panel.add(label3, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(39, 30), null, 0, false));
+        cg_panel.add(label2, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(39, 30), null, 0, false));
+        cg_batchAddText = new JTextField();
+        Font cg_batchAddTextFont = this.$$$getFont$$$(null, -1, 24, cg_batchAddText.getFont());
+        if (cg_batchAddTextFont != null) cg_batchAddText.setFont(cg_batchAddTextFont);
+        cg_batchAddText.setText("addBatch");
+        cg_panel.add(cg_batchAddText, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        cg_okButton = new JButton();
+        Font cg_okButtonFont = this.$$$getFont$$$(null, -1, 36, cg_okButton.getFont());
+        if (cg_okButtonFont != null) cg_okButton.setFont(cg_okButtonFont);
+        cg_okButton.setHorizontalAlignment(0);
+        cg_okButton.setHorizontalTextPosition(0);
+        cg_okButton.setText("确定");
+        panel2.add(cg_okButton, BorderLayout.SOUTH);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
         tabbedPane1.addTab("数据库配置", panel3);
-        final JLabel label4 = new JLabel();
-        Font label4Font = this.$$$getFont$$$(null, -1, 22, label4.getFont());
-        if (label4Font != null) label4.setFont(label4Font);
-        label4.setText("");
-        panel3.add(label4, BorderLayout.WEST);
+        final JLabel label3 = new JLabel();
+        Font label3Font = this.$$$getFont$$$(null, -1, 22, label3.getFont());
+        if (label3Font != null) label3.setFont(label3Font);
+        label3.setText("");
+        panel3.add(label3, BorderLayout.WEST);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         Font panel4Font = this.$$$getFont$$$("Franklin Gothic Heavy", -1, -1, panel4.getFont());
@@ -469,19 +670,19 @@ public class GuiMain {
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel4.add(panel5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label5 = new JLabel();
-        Font label5Font = this.$$$getFont$$$(null, -1, 22, label5.getFont());
-        if (label5Font != null) label5.setFont(label5Font);
-        label5.setText("选择数据库");
-        panel5.add(label5);
-        comboBox1 = new JComboBox();
-        Font comboBox1Font = this.$$$getFont$$$(null, -1, 22, comboBox1.getFont());
-        if (comboBox1Font != null) comboBox1.setFont(comboBox1Font);
+        final JLabel label4 = new JLabel();
+        Font label4Font = this.$$$getFont$$$(null, -1, 22, label4.getFont());
+        if (label4Font != null) label4.setFont(label4Font);
+        label4.setText("选择数据库");
+        panel5.add(label4);
+        db_type = new JComboBox();
+        Font db_typeFont = this.$$$getFont$$$(null, -1, 22, db_type.getFont());
+        if (db_typeFont != null) db_type.setFont(db_typeFont);
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("Mysql");
         defaultComboBoxModel1.addElement("Oracle");
-        comboBox1.setModel(defaultComboBoxModel1);
-        panel5.add(comboBox1);
+        db_type.setModel(defaultComboBoxModel1);
+        panel5.add(db_type);
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel4.add(panel6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

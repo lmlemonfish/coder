@@ -1,23 +1,23 @@
 package ui;
 
-import java.awt.Font;
-import java.awt.GridLayout;
+import builder.concrete.TemplateFromDbBuilder;
+import builder.director.TemplateDirector;
+import constants.BuildEnum;
+import db.service.CommonDBService;
+import engine.CoderEngine;
+import entity.FileFromDbData;
+import entity.TableInfo;
+import utils.Constants;
+import utils.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import utils.Constants;
-import utils.StringUtils;
+import java.util.HashMap;
 
 /**
  * 要求用户输入表名以及文件输出路径界面
@@ -25,16 +25,30 @@ import utils.StringUtils;
  *
  */
 public class ConfirmInfoFrame extends JFrame {
+
+	private GuiMain guiMain;
 	
 	public static ConfirmInfoFrame getInstance() {
 		return StaticClassLazy.frame;
 	}
+	public static ConfirmInfoFrame getInstance(GuiMain guiMain) {
+		return StaticClassLazy.getFrame(guiMain);
+	}
 	
 	private static class StaticClassLazy {
 		private static ConfirmInfoFrame frame = new ConfirmInfoFrame();
+
+		public static ConfirmInfoFrame getFrame(GuiMain guiMain) {
+			return new ConfirmInfoFrame(guiMain);
+		}
 	}
-	
+
 	private ConfirmInfoFrame() {
+		init(Constants.DEFAULT_X, Constants.DEFAULT_Y, Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT);
+	}
+
+	private ConfirmInfoFrame(GuiMain guiMain) {
+		this.guiMain = guiMain;
 		init(Constants.DEFAULT_X, Constants.DEFAULT_Y, Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT);
 		
 	}
@@ -50,6 +64,10 @@ public class ConfirmInfoFrame extends JFrame {
 	private JTextField tableName;
 	private JFileChooser fileChooser;
 	private JPanel [] jps;
+
+	//拿到Coder引擎
+	CoderEngine engine = new CoderEngine();
+	CommonDBService dbService = null;
 	
 	private Font font = new Font(null, 1, 18);
 	
@@ -187,6 +205,18 @@ public class ConfirmInfoFrame extends JFrame {
 					JOptionPane.showMessageDialog(ConfirmInfoFrame.this, "生成文件路径不能为空!");
 					return;
 				}
+				//取表信息
+				dbService = guiMain.getDbService();
+				String tableName = getTableName();
+				TableInfo info = dbService.getTableInfoFromDB(getTableName());
+				FileFromDbData fileFromDbData = guiMain.setBuildFileDateInit(info, getTableName(), getFilePath());
+				HashMap<String, Object> valueMap = new HashMap<>();
+				valueMap.put(BuildEnum.TEMPLATE.getModelKey(), fileFromDbData);
+				valueMap.put(Constants.IS_USE_SPRING_ANNOTATION, Constants.USE_SPRING_ANNOTATION);
+				//建造者传入指挥者 --> 生成模板
+				TemplateFromDbBuilder builder = new TemplateFromDbBuilder(valueMap, getFilePath());
+				TemplateDirector director = new TemplateDirector(builder);
+				director.buildEntityTemplate();
 				shutDown = true;
 				ConfirmInfoFrame.this.setVisible(false);
 				

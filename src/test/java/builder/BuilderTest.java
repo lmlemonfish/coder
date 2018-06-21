@@ -32,7 +32,7 @@ public class BuilderTest {
         // 拿到service
         CommonDBService dbService = engine.getCommonDBService("Mysql");
         //连接数据库
-        dbService.checkConnection("jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=utf8&useInformationSchema=true", "root", "root");
+        dbService.checkConnection("localhost", "music", "3306", "root", "root");
         //取表信息
         TableInfo info = dbService.getTableInfoFromDB("tb_content");
 
@@ -48,9 +48,9 @@ public class BuilderTest {
         basicData.setDescription(info.getNote());
 
         MethodBasicData dao = setBuildDao(valueMap);
-        MethodBasicData mapper = setBuildDao(valueMap);
+        MethodBasicData mapper = setBuildMapper(valueMap);
         MethodBasicData service = setBuildService(valueMap);
-        MethodBasicData serviceImpl = setBuildService(valueMap);
+        MethodBasicData serviceImpl = setBuildServiceImpl(valueMap);
         MethodBasicData controller = setBuildController(valueMap);
 
         fileFromDbData.setTableInfo(info);

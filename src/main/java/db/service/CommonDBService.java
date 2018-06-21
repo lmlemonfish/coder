@@ -19,12 +19,12 @@ public interface CommonDBService {
 
     /**
      * 检查是否连接成功数据库
-     * @param url
+     * @param
      * @param userName
      * @param password
      * @return
      */
-    boolean checkConnection(String url, String userName, String password);
+    boolean checkConnection(String ipAdress, String dbName, String post, String userName, String password);
 
 
 }

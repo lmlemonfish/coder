@@ -18,6 +18,7 @@ import java.util.List;
 * @Version 1.0
 */
 public interface ${template.service.className?cap_first} {
+
 	<#if (template.service.addMethod)??>
 	public void ${template.service.addMethod}(${template.classInfo.className?cap_first} ${template.classInfo.className});
 	</#if>

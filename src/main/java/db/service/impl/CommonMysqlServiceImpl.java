@@ -93,8 +93,10 @@ public class CommonMysqlServiceImpl implements CommonDBService {
     }
 
     @Override
-    public boolean checkConnection(String url, String userName, String password) {
+    public boolean checkConnection(String ipAdress, String dbName, String post, String userName, String password) {
 
+        String url = "jdbc:mysql://" + ipAdress +":" + post + "/" + dbName + "?useUnicode=true&characterEncoding=utf8&useInformationSchema=true";
+        
         Connection connection = JdbcUtils.getConnection(MYSQL_DRIVER, url, userName, password);
         if(connection != null) {
             //封装到ConInfo对象

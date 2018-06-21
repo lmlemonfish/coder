@@ -8,7 +8,7 @@ package ${template.classInfo.packageName};
  * @Date ${template.classInfo.date?string("yyyy/MM/dd HH:mm:ss")}
  * @Version 1.0
  **/
-public class ${template.classInfo.className}Entity implements Serializable {
+public class ${template.classInfo.className} implements Serializable {
 
 <#list template.entity.fieldList as item>
     private ${item.fieldType} ${item.fieldName}; <#if (item.note)?? && item.note != ''>//${item.note}</#if>

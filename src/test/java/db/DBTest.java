@@ -20,7 +20,7 @@ public class DBTest {
     @Test
     public void testConnection() {
         CommonDBService service = engine.getCommonDBService("Mysql");
-        boolean isCon = service.checkConnection("jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true", "root", "root");
+        boolean isCon = service.checkConnection("localhost", "music", "3306", "root", "root");
         assert(isCon);
         System.out.println(engine.getConInfo());
     }
@@ -28,7 +28,7 @@ public class DBTest {
     @Test
     public void testConnectionForOracle() {
         CommonDBService service = engine.getCommonDBService("Oracle");
-        boolean isCon = service.checkConnection("jdbc:oracle:thin:@192.168.147.195:1521:ORCL", "stategrid", "stategrid");
+        boolean isCon = service.checkConnection("192.168.147.195", "ORCL", "1521", "stategrid", "stategrid");
         assert(isCon);
         System.out.println(engine.getConInfo());
     }
